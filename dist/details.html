@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <link rel="stylesheet" crossorigin href="/assets/style-cDQyI9NW.css">
+</head>
+<body>
+
+  <header class="section-navbar">
+    <div class="top-box">
+      <div class="head-container">
+        <div class="head-text">
+          <h3>Free Shipping, 30-Days return or refund Fuarantee.</h3>
+        </div>
+        <!-- <div class="sing-in-up">
+          <a href="#">SIGN IN</a>
+          <a href="#">SIGN UP</a>
+        </div> -->
+      </div>
+    </div>
+  </header>
+
+
+
+  <div class="nav-bar">
+    <div class="nav-bar1">
+      <div class="nav-bar1-1">
+        <a href="./index.html" class="llm">Easy Buy</a>
+      </div>
+      <div class="lolo">
+        <!-- <div class="add-to-cart0">
+          <a href="add-to-cart.html" class="add-to-cart1" id="cartvalue">
+            <i class="ri-shopping-cart-2-fill">0</i>
+          </a>
+        </div> -->
+        <div class="add-to-cart">
+          <a href="add-to-cart.html" class="add-to-cart1" id="cartvalue">
+            <i class="ri-shopping-cart-2-fill">0</i>
+          </a>
+        </div>
+
+
+        <div class="menuu">
+          <i class="ri-menu-3-line" id="menuuu"></i>
+        </div>
+
+
+
+      </div>
+      <div class="nav-bar1-2">
+        <ul class="elm">
+          <li class="Home">
+            <a href="./index.html" class="Home1">Home</a>
+          </li>
+          <li class="About">
+            <a href="about.html" class="About1">About</a>
+          </li>
+          <li class="Product">
+            <a href="product.html" class="Product1">Product</a>
+          </li>
+          <li class="Contact">
+            <a href="contact.html" class="Contact1">Contact</a>
+          </li>
+          <!-- <li class="add-to-cart">
+            <a href="add-to-cart.html" class="add-to-cart1" id="cartvalue">
+              <i class="ri-shopping-cart-2-fill">0</i>
+            </a>
+          </li> -->
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+    <div class="detailProd">
+      <div class="detailTitle">PRODUCT DETAILS</div>
+      <div class="detail">
+        <div class="detailsImg">
+          <img src="" alt="">
+        </div>
+        <div class="detailContent">
+          <h1 class="NAME"></h1>
+          <div class="detailprice"></div>
+          <div class="buttons">
+            <button>Check Out</button>
+            <!-- <button class="add-to-cart-btn">
+              <p>ADD TO CART</p>
+              <i class="ri-shopping-cart-2-fill" style="font-size: 1.5rem;"></i>
+            </button> -->
+          </div>
+          <div class="DESCRIPTION"></div>
+        </div>
+      </div>
+      <div class="TITLE">MORE PRODUCTS</div>
+      <div class="detailProd">
+      <div class="detailProd2"></div>
+    </div>
+    </div>
+
+
+    <div class="m" id="m">
+      <div class="me">
+        <div class="close"><i class="ri-close-circle-fill"></i></div>
+        <div class="memain">
+          <div class="nav-bar1-21">
+            <ul class="elm">
+              <li class="Home">
+                <a href="./index.html" class="Home1">Home</a>
+              </li>
+              <li class="About">
+                <a href="about.html" class="About1">About</a>
+              </li>
+              <li class="Product">
+                <a href="product.html" class="Product1">Product</a>
+              </li>
+              <li class="Contact">
+                <a href="contact.html" class="Contact1">Contact</a>
+              </li>
+              <!-- <li class="add-to-cart">
+                <a href="add-to-cart.html" class="add-to-cart1" id="cartvalue">
+                  <i class="ri-shopping-cart-2-fill">0</i>
+                </a>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+        <div class="sing-in-up1">
+          <a href="#">SIGN IN</a>
+          <a href="#">SIGN UP</a>
+        </div>
+      </div>
+    </div>
+
+    <script >
+      document.querySelector("#menuuu").addEventListener("click", ()=>{
+    document.getElementById("m").style.display = "block";
+    })
+    
+    document.querySelector(".close").addEventListener("click", ()=>{
+    document.getElementById("m").style.display = "none";
+    })
+    </script>
+
+
+
+    <script>
+      //  get data product in products.json
+      let products = null;
+
+fetch('product.json')
+.then(Response => Response.json())
+.then(data => {
+    products = data;
+    showDetails();
+})
+
+function showDetails(){
+  console.log("hello");
+  let detail = document.querySelector('.detail');
+  let producId = new URLSearchParams(window.location.search).get('id');
+  let thisProduct = products.filter(value =>{
+    return value.id == producId
+  })[0];
+  //  if there is no product has id = productId
+  // => returnt to home page
+
+  if(!thisProduct){
+    window.location.href = "/"
+  }
+
+  //  and if has, add data this product in html
+  detail.querySelector('.detailsImg img').src = thisProduct.image;
+  detail.querySelector('.NAME').innerHTML = thisProduct.name;
+  detail.querySelector('.detailprice').innerHTML = '₹' + thisProduct.price;
+  detail.querySelector('.DESCRIPTION').innerHTML = thisProduct.description;
+
+  // add data products similar
+
+  // show all products
+let listProduct = document.querySelector(".detailProd2");
+  (products.filter(value => value.id != producId))
+  .forEach(product => {
+    let newProduct = document.createElement('a');
+    newProduct.href = '/details.html?id=' + product.id;
+    newProduct.classList.add('item');
+    newProduct.innerHTML = `
+    <img src="${product.image}">
+    <h2>${product.name}</h2>
+    <div class="price">${product.price}</div> 
+    `;
+    listProduct.appendChild(newProduct);
+  });
+
+}
+
+    </script>
+</body>
+</html>
